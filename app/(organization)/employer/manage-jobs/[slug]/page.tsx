@@ -246,6 +246,18 @@ export default async function PostDetailsPage({ params }: IAppProps) {
                 </p>
               )}
             </section>
+            <section className={`max-w-full mt-3 ${cardClass}`}>
+              <div className="mb-6">
+                <h2 className={headingClass}>Job Description</h2>
+                <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
+                  Job description and responsibilities
+                </p>
+              </div>
+
+              <div className="w-full min-w-0 whitespace-pre-wrap wrap-break-word text-sm leading-7 text-slate-700 dark:text-slate-300">
+                {data.description || "No job description provided."}
+              </div>
+            </section>
           </div>
 
           {/* Sidebar */}
@@ -351,18 +363,6 @@ export default async function PostDetailsPage({ params }: IAppProps) {
             </section>
           </aside>
         </div>
-        <section className={`max-w-full px-4 mt-3 ${cardClass}`}>
-          <div className="mb-6">
-            <h2 className={headingClass}>Job Requirements</h2>
-            <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
-              Job description and responsibilities
-            </p>
-          </div>
-
-          <div className="w-full min-w-0 whitespace-pre-wrap wrap-break-word text-sm leading-7 text-slate-700 dark:text-slate-300">
-            {data.description || "No job description provided."}
-          </div>
-        </section>
         {/* Bottom navigation */}
         <div className="mt-8">
           <Link
