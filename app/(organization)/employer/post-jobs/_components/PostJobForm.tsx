@@ -35,10 +35,11 @@ import {
 import { useTransition } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { z } from "zod";
-import { createJobPostMethod } from "../actions";
+import { createJobPostMethod, updateJobPostMethod } from "../actions";
 import { tryCatch } from "@/hooks/try-catchs";
 import { toast } from "@/components/ui/toast";
 import { useRouter } from "next/navigation";
+import { GetSingleJobDetalsType } from "@/app/services/employer/getjob-details";
 
 type JobFormInput = z.input<typeof createJobSchema>;
 type JobFormOutput = z.output<typeof createJobSchema>;
@@ -97,34 +98,45 @@ function SectionHeading({
   );
 }
 
-export function PostJobForm() {
+type PostJobFormProps = {
+  mode: "create" | "update";
+  initialData?: GetSingleJobDetalsType;
+  jobId?: string;
+};
+
+export function PostJobForm({ mode, initialData, jobId }: PostJobFormProps) {
+  const isEdit = mode === "update";
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
   const form = useForm<JobFormInput, unknown, JobFormOutput>({
     resolver: zodResolver(createJobSchema),
     defaultValues: {
-      title: "",
-      department: "",
-      location: "",
-      workplaceType: "REMOTE",
-      employmentType: "FULL_TIME",
-      experienceLevel: "ENTRY_LEVEL",
-      salaryMin: undefined,
-      salaryMax: undefined,
-      benefits: [],
-      status: "DRAFT",
-      salaryCurrency: "INR",
-      openings: 1,
-      description: "",
-      salaryPeriod: "YEARLY",
-      skills: [],
-      requirements: "",
+      title: initialData?.title ?? "",
+      department: initialData?.department ?? "",
+      location: initialData?.location ?? "",
+      workplaceType: initialData?.workplaceType ?? "REMOTE",
+      employmentType: initialData?.employmentType ?? "FULL_TIME",
+      experienceLevel: initialData?.experienceLevel ?? "ENTRY_LEVEL",
+      salaryMin: initialData?.salaryMin ?? undefined,
+      salaryMax: initialData?.salaryMax ?? undefined,
+      benefits: initialData?.benefits ?? [],
+      status: initialData?.status ?? "DRAFT",
+      salaryCurrency: initialData?.salaryCurrency ?? "INR",
+      openings: initialData?.openings ?? 1,
+      description: initialData?.description ?? "",
+      salaryPeriod: initialData?.salaryPeriod ?? "YEARLY",
+      skills: initialData?.skills ?? [],
+      requirements: initialData?.requirements ?? "",
     },
   });
 
   function onSubmit(value: JobFormOutput) {
     startTransition(async () => {
-      const { data, error } = await tryCatch(createJobPostMethod(value));
+      const { data, error } = await tryCatch(
+        isEdit
+          ? updateJobPostMethod(value, initialData!.id)
+          : createJobPostMethod(value),
+      );
       if (error) {
         toast.add({
           type: "error",
@@ -137,8 +149,12 @@ export function PostJobForm() {
           type: "success",
           title: data?.message,
         });
-        form.reset();
-        router.push("/employer/manage-jobs");
+        if (isEdit) {
+          router.push("/employer/manage-jobs");
+        } else {
+          form.reset();
+          router.push("/employer/manage-jobs");
+        }
       } else if (data.status === "error") {
         toast.add({
           type: "error",
@@ -158,7 +174,7 @@ export function PostJobForm() {
           </div>
           <div>
             <h1 className="text-2xl font-bold tracking-tight sm:text-3xl">
-              Post a New Job
+              {isEdit ? "Edit Job Post" : "Create Job Post"}
             </h1>
             <p className="mt-2 max-w-xl text-sm leading-6 text-muted-foreground sm:text-base">
               Find your next great hire. Add the job details below to create
@@ -651,7 +667,7 @@ export function PostJobForm() {
             ) : (
               <>
                 <Send className="size-4" />
-                <span>Submit</span>
+                {isEdit ? <span>Update</span> : <span>Submit</span>}
               </>
             )}
           </button>

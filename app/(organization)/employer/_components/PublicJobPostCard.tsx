@@ -9,9 +9,9 @@ import {
   Users,
   Wallet,
   CalendarDays,
-  Pencil,
   Eye,
   Building2,
+  SquarePen,
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -68,7 +68,7 @@ export function PublicJobPostCard({ data }: iAppProps) {
     : "Not available";
 
   return (
-    <Card className="group w-full min-w-0 overflow-hidden rounded-xl border-border bg-card shadow-sm transition-all duration-200 hover:border-primary/30 hover:shadow-md">
+    <Card className="group w-full min-w-0 overflow-hidden rounded-xl border-border bg-card shadow-sm transition-all duration-200 hover:border-primary/30 hover:shadow-md dark:bg-black/40">
       <CardContent className="space-y-4 p-4 sm:p-5">
         {/* Company Header */}
         <div className="flex min-w-0 items-start justify-between gap-3">
@@ -140,7 +140,7 @@ export function PublicJobPostCard({ data }: iAppProps) {
         </div>
 
         {/* Salary and Openings */}
-        <div className="grid grid-cols-1 gap-2 rounded-lg bg-muted/50 p-3 sm:grid-cols-2">
+        <div className="grid grid-cols-1 gap-2 justify-between rounded-lg bg-muted/50 p-1 sm:grid-cols-2">
           <div className="flex min-w-0 items-start gap-2">
             <Wallet className="mt-0.5 size-4 shrink-0 text-primary" />
 
@@ -187,12 +187,12 @@ export function PublicJobPostCard({ data }: iAppProps) {
             <Link
               href={`/employer/manage-jobs/${data.id}/edit-post`}
               className={buttonVariants({
-                variant: "default",
+                variant:"default",
                 size: "sm",
                 className: "w-full px-4 py-4 gap-1.5",
               })}
             >
-              <Pencil className="size-4" />
+             <SquarePen className="size-4" />
               Edit Post
             </Link>
           </div>
