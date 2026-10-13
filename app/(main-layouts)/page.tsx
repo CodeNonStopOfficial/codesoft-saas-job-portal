@@ -1,13 +1,11 @@
-import { JobFilterComponent } from "@/components/common/JobPostFilter";
-import {GetJobPostPublicHome} from "@/app/(main-layouts)/_components/GetJobPostPublicHome"
+import { getDataPublicJob } from "../services/candidata/get-public-jobpost";
+import { LeandingPageComponent } from "./_components/LeandingPageComponent";
 
-export default function HomePage() {
+export default async function HomePage(){
+  const data = await getDataPublicJob();
   return (
-    <div className="grid grid-cols-3 gap-4 p-4">
-      <JobFilterComponent/>
-       <div className="col-span-2 flex flex-col gap-6">
-         <GetJobPostPublicHome/>
-       </div>
-    </div>
-  );
+     <div>
+        <LeandingPageComponent data={data}/>
+     </div>
+  )
 }

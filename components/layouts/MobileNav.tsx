@@ -9,7 +9,6 @@ import { UserRole } from "@/lib/generated/prisma/client";
 
 const navItems = [
   { label: "Get Started", href: "/get-started" },
-  { label: "Find Jobs", href: "/jobs" },
   { label: "Internship", href: "/internships" },
   { label: "Blog", href: "/blog" },
   { label: "Dashboard", href: "/dashboard" },

@@ -37,12 +37,12 @@ export async function Navbar() {
           >
             Get Started
           </Link>
-          <Link className="hover:text-primary cursor-pointer" href="/find-jobs">
-            Find Jobs
+          <Link className="hover:text-primary cursor-pointer" href="/">
+            Learning
           </Link>
           <Link
             className="hover:text-primary cursor-pointer"
-            href="/internships"
+            href="/"
           >
             Internship
           </Link>

@@ -40,6 +40,14 @@ export function UserProfileToggle({ user }: iAppProps) {
         : user?.role === "JOB_SEEKER"
           ? "/candidate/dashboard"
           : null;
+  const userType =
+    user?.role === "ADMIN"
+      ? "/admin/"
+      : user?.role === "COMPANY"
+        ? "/employer/"
+        : user?.role === "JOB_SEEKER"
+          ? "/candidate/"
+          : null;
   return (
     <DropdownMenu>
       <DropdownMenuTrigger
@@ -57,19 +65,19 @@ export function UserProfileToggle({ user }: iAppProps) {
       />
       <DropdownMenuContent align="center">
         <DropdownMenuGroup>
-          <Link href="/profile">
+          <Link href={`${userType}/profile`}>
             <DropdownMenuItem>
               <BadgeCheckIcon />
               Profile
             </DropdownMenuItem>
           </Link>
-          <Link href="/billing">
+          <Link href={`${userType}/billing`}>
             <DropdownMenuItem>
               <CreditCardIcon />
               Billing
             </DropdownMenuItem>
           </Link>
-          <Link href="/notification">
+          <Link href={`${userType}/notification`}>
             <DropdownMenuItem>
               <BellIcon />
               Notification

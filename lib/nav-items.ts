@@ -35,7 +35,7 @@ export const employerNavItems = [
   },
   {
     title: "Company Profile",
-    url: "/employer/company-profile",
+    url: "/employer/profile",
     icon: Building2,
   },
   {
